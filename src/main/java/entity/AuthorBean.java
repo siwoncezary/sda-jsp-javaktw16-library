@@ -11,9 +11,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 @Entity
 public class AuthorBean {
     @Id

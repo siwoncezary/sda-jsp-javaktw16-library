@@ -22,6 +22,6 @@ public class BookBean {
     private String title;
     private String ISBN;
     private int publicationYear;
-    @OneToMany
+    @ManyToMany
     private Set<AuthorBean> authors = new HashSet<>();
 }

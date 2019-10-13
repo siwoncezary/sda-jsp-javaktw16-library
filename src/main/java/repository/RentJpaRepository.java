@@ -1,16 +1,16 @@
 package repository;
 
-import entity.AuthorBean;
-
+import entity.BookBean;
+import entity.RentBean;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import java.util.List;
 
-public class AuthorJpaRepository implements AuthorRepository{
+public class RentJpaRepository implements RentRepository {
     private EntityManagerFactory factory;
 
-    public AuthorJpaRepository(EntityManagerFactory factory) {
+    public RentJpaRepository(EntityManagerFactory factory) {
         this.factory = factory;
     }
 
@@ -19,7 +19,7 @@ public class AuthorJpaRepository implements AuthorRepository{
     }
 
     @Override
-    public void save(AuthorBean bean) {
+    public void save(RentBean bean) {
         EntityManager em = getManager();
         em.getTransaction().begin();
         em.persist(bean);
@@ -27,7 +27,7 @@ public class AuthorJpaRepository implements AuthorRepository{
     }
 
     @Override
-    public void update(AuthorBean bean) {
+    public void update(RentBean bean) {
         EntityManager em = getManager();
         em.getTransaction().begin();
         em.merge(bean);
@@ -35,28 +35,27 @@ public class AuthorJpaRepository implements AuthorRepository{
     }
 
     @Override
-    public AuthorBean delete(long id) {
+    public RentBean delete(long id) {
         EntityManager em = getManager();
         em.getTransaction().begin();
-        AuthorBean bean = em.find(AuthorBean.class, id);
+        RentBean bean = em.find(RentBean.class, id);
         em.remove(bean);
         em.getTransaction().commit();
         return bean;
     }
 
     @Override
-    public AuthorBean find(long id) {
+    public RentBean find(long id) {
         EntityManager em = getManager();
         em.getTransaction().begin();
-        AuthorBean bean = em.find(AuthorBean.class, id);
+        RentBean bean = em.find(RentBean.class, id);
         em.getTransaction().commit();
         return bean;
     }
 
     @Override
-    public List<AuthorBean> findAll() {
+    public List<RentBean> findAll() {
         EntityManager em = getManager();
-        return em.createQuery("FROM AuthorBean").getResultList();
-
+        return em.createQuery("FROM RentBean").getResultList();
     }
 }
