@@ -8,18 +8,19 @@ import java.util.List;
 
 public class BookJpaRepository implements BookRepository {
     private EntityManagerFactory factory;
+    private EntityManager em;
 
     public BookJpaRepository(EntityManagerFactory factory) {
         this.factory = factory;
+        em = factory.createEntityManager();
     }
 
     EntityManager getManager(){
-        return factory.createEntityManager();
+        return em;
     }
 
     @Override
     public void save(BookBean bean) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         em.persist(bean);
         em.getTransaction().commit();
@@ -27,7 +28,6 @@ public class BookJpaRepository implements BookRepository {
 
     @Override
     public void update(BookBean bean) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         em.merge(bean);
         em.getTransaction().commit();
@@ -35,7 +35,6 @@ public class BookJpaRepository implements BookRepository {
 
     @Override
     public BookBean delete(long id) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         BookBean bean = em.find(BookBean.class, id);
         em.remove(bean);
@@ -45,7 +44,6 @@ public class BookJpaRepository implements BookRepository {
 
     @Override
     public BookBean find(long id) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         BookBean bean = em.find(BookBean.class, id);
         em.getTransaction().commit();
@@ -54,8 +52,10 @@ public class BookJpaRepository implements BookRepository {
 
     @Override
     public List<BookBean> findAll() {
-        EntityManager em = getManager();
-        return em.createQuery("FROM BookBean").getResultList();
+        em.getTransaction().begin();
+        List<BookBean> result = em.createQuery("FROM BookBean").getResultList();
+        em.getTransaction().commit();
+        return result;
 
     }
 }

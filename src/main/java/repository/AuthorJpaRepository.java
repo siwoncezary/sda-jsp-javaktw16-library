@@ -9,18 +9,19 @@ import java.util.List;
 
 public class AuthorJpaRepository implements AuthorRepository{
     private EntityManagerFactory factory;
+    private EntityManager em;
 
     public AuthorJpaRepository(EntityManagerFactory factory) {
         this.factory = factory;
+        em = factory.createEntityManager();
     }
 
     EntityManager getManager(){
-        return factory.createEntityManager();
+        return em;
     }
 
     @Override
     public void save(AuthorBean bean) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         em.persist(bean);
         em.getTransaction().commit();
@@ -28,7 +29,6 @@ public class AuthorJpaRepository implements AuthorRepository{
 
     @Override
     public void update(AuthorBean bean) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         em.merge(bean);
         em.getTransaction().commit();
@@ -36,7 +36,6 @@ public class AuthorJpaRepository implements AuthorRepository{
 
     @Override
     public AuthorBean delete(long id) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         AuthorBean bean = em.find(AuthorBean.class, id);
         em.remove(bean);
@@ -46,7 +45,6 @@ public class AuthorJpaRepository implements AuthorRepository{
 
     @Override
     public AuthorBean find(long id) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         AuthorBean bean = em.find(AuthorBean.class, id);
         em.getTransaction().commit();
@@ -55,7 +53,6 @@ public class AuthorJpaRepository implements AuthorRepository{
 
     @Override
     public List<AuthorBean> findAll() {
-        EntityManager em = getManager();
         return em.createQuery("FROM AuthorBean").getResultList();
 
     }

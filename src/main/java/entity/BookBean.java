@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,7 @@ public class BookBean {
     private String title;
     private String ISBN;
     private int publicationYear;
+    private BigDecimal price;
     @ManyToMany
     private Set<AuthorBean> authors = new HashSet<>();
 }

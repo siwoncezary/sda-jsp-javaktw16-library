@@ -19,4 +19,10 @@ public class RentBean {
     private UserBean user;
     private LocalDate rentDate;
     private LocalDate returnDate;
+
+    @PrePersist
+    private void rentDateToCurrentDate(){
+        //Lepiej wywoływać z obiektem Clock np. LocalDate.now(clock)
+        rentDate = LocalDate.now();
+    }
 }

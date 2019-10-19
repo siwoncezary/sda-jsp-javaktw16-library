@@ -11,18 +11,19 @@ import java.util.Optional;
 public class UserJpaRepository implements UserRepository {
 
     private EntityManagerFactory factory;
+    private EntityManager em;
 
     public UserJpaRepository(EntityManagerFactory factory) {
         this.factory = factory;
+        em = factory.createEntityManager();
     }
 
     EntityManager getManager(){
-        return factory.createEntityManager();
+        return em;
     }
 
     @Override
     public void save(UserBean bean) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         em.persist(bean);
         em.getTransaction().commit();
@@ -30,7 +31,6 @@ public class UserJpaRepository implements UserRepository {
 
     @Override
     public void update(UserBean bean) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         em.merge(bean);
         em.getTransaction().commit();
@@ -38,7 +38,6 @@ public class UserJpaRepository implements UserRepository {
 
     @Override
     public UserBean delete(long id) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         UserBean bean = em.find(UserBean.class, id);
         em.remove(bean);
@@ -48,7 +47,6 @@ public class UserJpaRepository implements UserRepository {
 
     @Override
     public UserBean find(long id) {
-        EntityManager em = getManager();
         em.getTransaction().begin();
         UserBean bean = em.find(UserBean.class, id);
         em.getTransaction().commit();
@@ -63,7 +61,6 @@ public class UserJpaRepository implements UserRepository {
 
     @Override
     public Optional<UserBean> findByLogin(String login) {
-        EntityManager em = getManager();
         return Optional.ofNullable(em.createQuery("select u FROM UserBean u where u.login =:login_param", UserBean.class).setParameter("login_param", login).getSingleResult());
     }
 }

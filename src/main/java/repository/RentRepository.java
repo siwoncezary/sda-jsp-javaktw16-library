@@ -1,5 +1,6 @@
 package repository;
 
+import entity.BookBean;
 import entity.RentBean;
 import entity.UserBean;
 
@@ -12,4 +13,5 @@ public interface RentRepository {
     RentBean delete(long id);
     RentBean find(long id);
     List<RentBean> findAll();
+    List<BookBean> findRentedBooks();
 }

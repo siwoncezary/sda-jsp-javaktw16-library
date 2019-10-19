@@ -7,12 +7,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <html>
-<%@include file="../head.jspf"%>
+<%@include file="../head.jspf" %>
 <body>
-<%@include file="../navbar.jspf"%>
+<%@include file="../navbar.jspf" %>
 <div class="container-fluid mx-auto" style="width: 800px;">
-    <h1>Lista książek</h1>
+    <h1>Lista książek do wypożyczenia</h1>
     <div class="container">
         <table class="table table-sm">
             <tr>
@@ -30,6 +32,9 @@
                 </th>
                 <th>
                     autorzy
+                </th>
+                <th>
+                    cena
                 </th>
             </tr>
             <c:forEach items="${requestScope.books}" var="book">
@@ -50,12 +55,19 @@
                         <c:forEach items="${book.authors}" var="author">
                             <p>${author.name}</p>
                         </c:forEach>
-                        <a href="${pageContext.request.contextPath}/admin/author?book_id=${book.id}">Dodaj autora</a>
+                    </td>
+                    <td>
+                            ${book.price}
+                    </td>
+                    <td>
+                        <a href="${pageContext.request.contextPath}/cart/add?book_id=${book.id}">Dodaj do koszyka</a>
+                        <a href="${pageContext.request.contextPath}/cart/remove?book_id=${book.id}">Usuń z koszyka</a>
                     </td>
                 </tr>
             </c:forEach>
         </table>
     </div>
 </div>
+<%@include file="../body_end.jspf"%>
 </body>
 </html>
